@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+			table {
+			    font-family: arial, sans-serif;
+			    width: 40%;
+			}
+			
+			td, th {
+			    text-align: center;
+			    padding: 8px;
+			}
+			
+	</style>
+</head>
+<body>
+<form method="post">{% csrf_token %}
+	<table>
+    	<tr><th>Title</th><th>isbn</th><th>Language</th></tr>
+    	<tr>
+    		{% for field in form %}
+    	 	<td>
+			    <div class="fieldWrapper">
+			        {{ field.errors }}
+			         {{ field }}
+			        {% if field.help_text %}
+			        <p class="help">{{ field.help_text|safe }}</p>
+			        {% endif %}
+			    </div>
+			 </td>
+		    {% endfor %}
+    	</tr>
+	</table>
+    <input type="submit" value="Submit" />
+</form>
+<table>
+	<tr><th>Title</th><th>isbn</th><th>Language</th></tr>
+	{% for book in books %}
+	<tr>
+		<td>{{ book.title }}</td><td>{{book.isbn}}</td><td>{{ book.language }} </td><td><a href="{% url 'update_book' book.id %}">Edit</a></td><td><a href="{% url 'delete_book' book.id %}">Delete</a></td>
+	</tr>
+	{% endfor %}
+</table>
+</body>
+</html>
